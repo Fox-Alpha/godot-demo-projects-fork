@@ -29,8 +29,8 @@ extends Node3D
 @onready var view = $View
 @onready var viewport1 = $Viewport1
 @onready var viewport2 = $Viewport2
-@onready var camera1 = viewport1.get_node(^"Camera1")
-@onready var camera2 = viewport2.get_node(^"Camera2")
+@onready var camera1 : Camera3D = viewport1.get_node(^"Camera1")
+@onready var camera2 : Camera3D = viewport2.get_node(^"Camera2")
 
 var viewport_base_height = ProjectSettings.get_setting("display/window/size/viewport_height")
 
@@ -107,3 +107,13 @@ func _compute_position_difference_in_world():
 
 func _compute_horizontal_length(vec):
 	return Vector2(vec.x, vec.z).length()
+
+
+func _on_viewport_1_size_changed():
+	var screen_size = get_viewport().get_visible_rect().size
+	print("View 1: " + str(screen_size))
+
+
+func _on_viewport_2_size_changed():
+	var screen_size = get_viewport().get_visible_rect().size
+	print("View 2: " + str(screen_size))
