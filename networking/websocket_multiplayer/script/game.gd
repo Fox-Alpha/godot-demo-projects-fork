@@ -8,26 +8,29 @@ const _crown = preload("res://img/crown.png")
 const ACTIONS = ["roll", "pass"]
 
 var _players = []
+var _rolls : Array[int]= [0,0,0,0]
 var _turn = -1
 
-@rpc
+@rpc("call_local")
 func _log(what):
 	$HBoxContainer/RichTextLabel.add_text(what + "\n")
+	var line = $HBoxContainer/RichTextLabel.get_line_count()
+	$HBoxContainer/RichTextLabel.scroll_to_line(line)
 
 
 @rpc("any_peer")
-func set_player_name(p_name):
+func set_player_name(peer_name):
 	if not is_multiplayer_authority():
 		return
 	var sender = multiplayer.get_remote_sender_id()
-	update_player_name.rpc(sender, p_name)
+	update_player_name.rpc(sender, peer_name)
 
 
 @rpc("call_local")
-func update_player_name(player, p_name):
+func update_player_name(player, peer_name):
 	var pos = _players.find(player)
 	if pos != -1:
-		_list.set_item_text(pos, p_name)
+		_list.set_item_text(pos, peer_name)
 
 
 @rpc("any_peer")
@@ -48,7 +51,8 @@ func request_action(action):
 
 func do_action(action):
 	var player_name = _list.get_item_text(_turn)
-	var val = randi() % 100
+	var val :int= randi() % 100
+	_rolls[_turn] = val
 	_log.rpc("%s: %ss %d" % [player_name, action, val])
 
 
@@ -97,7 +101,10 @@ func get_player_name(pos):
 func next_turn():
 	_turn += 1
 	if _turn >= _players.size():
+		var win = check_win()
+		_log.rpc("Player {0} has won with {1}".format([get_player_name(_rolls.find(win)), str(win)]))
 		_turn = 0
+		_rolls.fill(0)
 	set_turn.rpc(_turn)
 
 
@@ -135,3 +142,7 @@ func _on_Action_pressed():
 		next_turn()
 	else:
 		request_action.rpc_id(1, "roll")
+
+
+func check_win() -> int:
+	return _rolls.max()
