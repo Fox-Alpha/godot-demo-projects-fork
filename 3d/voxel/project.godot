@@ -25,6 +25,10 @@ config/icon="res://icon.webp"
 
 Settings="*res://settings.gd"
 
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+
 [display]
 
 window/size/viewport_width=1600
@@ -149,5 +153,6 @@ common/physics_ticks_per_second=120
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
 anti_aliasing/quality/msaa_3d=2
 anti_aliasing/quality/use_debanding=true

@@ -17,6 +17,10 @@ run/main_scene="res://node_3d.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.webp"
 
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+
 [display]
 
 window/stretch/mode="canvas_items"
@@ -87,6 +91,7 @@ toggle_vsync={
 
 [rendering]
 
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=3
 anti_aliasing/quality/msaa_3d=2
 anti_aliasing/quality/use_debanding=true
 occlusion_culling/use_occlusion_culling=true
