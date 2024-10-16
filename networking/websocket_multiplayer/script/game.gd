@@ -54,6 +54,7 @@ func do_action(action: String) -> void:
 	var player_name := _list.get_item_text(_turn)
 	var val := randi() % 100
 	_log.rpc("%s: %ss %d" % [player_name, action, val])
+	_rolls[_turn] = val
 
 
 @rpc("call_local")
