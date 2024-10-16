@@ -9,7 +9,7 @@ const ACTIONS = ["roll", "pass"]
 
 var _players : PackedInt32Array = []
 var _turn := -1
-var _rolls : Array[int]= [0,0,0,0]
+var _rolls :PackedInt32Array = []
 
 
 @rpc("call_local")
