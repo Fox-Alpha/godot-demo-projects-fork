@@ -118,7 +118,7 @@ func get_player_name(pos: int) -> String:
 func next_turn() -> void:
 	_turn += 1
 	if _turn >= _players.size():
-		var win : int = check_win()
+		var win : int = check_win_return_max_val()
 		_log.rpc("Player {0} has won with {1}".format([get_player_name(_rolls.find(win)), str(win)]))
 		_turn = 0
 		_rolls.fill(0)
