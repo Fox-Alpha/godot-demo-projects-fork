@@ -7,7 +7,7 @@ const _crown = preload("res://img/crown.png")
 
 const ACTIONS = ["roll", "pass"]
 
-var _playersvar _rolls : Array[int]= [0,0,0,0]
+var _players : PackedInt32Array = []
 var _turn := -1
 var _rolls : Array[int]= [0,0,0,0]
 
@@ -15,7 +15,7 @@ var _rolls : Array[int]= [0,0,0,0]
 @rpc("call_local")
 func _log(message: String) -> void:
 	$HBoxContainer/RichTextLabel.add_text(message + "\n")
-	var line = $HBoxContainer/RichTextLabel.get_line_count()
+	var line : int = $HBoxContainer/RichTextLabel.get_line_count()
 	$HBoxContainer/RichTextLabel.scroll_to_line(line)
 
 
@@ -108,7 +108,7 @@ func get_player_name(pos: int) -> String:
 func next_turn() -> void:
 	_turn += 1
 	if _turn >= _players.size():
-		var win = check_win()
+		var win : int = check_win()
 		_log.rpc("Player {0} has won with {1}".format([get_player_name(_rolls.find(win)), str(win)]))
 		_turn = 0
 		_rolls.fill(0)
