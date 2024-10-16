@@ -4,6 +4,10 @@ const _crown = preload("res://img/crown.png")
 
 @onready var _list: ItemList = $HBoxContainer/VBoxContainer/ItemList
 @onready var _action: Button = $HBoxContainer/VBoxContainer/Action
+@onready var _game_text: RichTextLabel = $HBoxContainer/VBoxContainer2/RichTextLabelGame
+@onready var _chat_text_out: RichTextLabel = $HBoxContainer/VBoxContainer2/RichTextLabelChat
+@onready var _chat_text_in: LineEdit = $HBoxContainer/VBoxContainer2/ChatText
+@onready var _chat_btn: Button = $HBoxContainer/VBoxContainer2/ButtonSendChatMessage
 
 const ACTIONS = ["roll", "pass"]
 
@@ -12,11 +16,21 @@ var _turn := -1
 var _rolls :PackedInt32Array = []
 
 
+func _ready() -> void:
+	_chat_btn.pressed.connect(_on_Btn_Chat_Send_Pressed)
+
 @rpc("call_local")
 func _log(message: String) -> void:
-	$HBoxContainer/RichTextLabel.add_text(message + "\n")
-	var line : int = $HBoxContainer/RichTextLabel.get_line_count()
-	$HBoxContainer/RichTextLabel.scroll_to_line(line)
+	_game_text.add_text(message + "\n")
+	var line : int = _game_text.get_line_count()
+	_game_text.scroll_to_line(line)
+
+
+@rpc("call_local")
+func _chat(msg : String) -> void:
+	_chat_text_out.add_text(msg + "\n")
+	var line : int = _chat_text_out.get_line_count()
+	_chat_text_out.scroll_to_line(line)
 
 
 @rpc("any_peer")
@@ -55,6 +69,18 @@ func request_action(action: String) -> void:
 
 	do_action(action)
 	next_turn()
+
+func SendChatMessage() -> void: 
+	pass
+
+@rpc("any_peer")
+func SendMsgRequest(ChatMsg : String) -> void :
+	if not is_multiplayer_authority():
+		return
+	var sender := multiplayer.get_remote_sender_id()
+	print("Chat from: %s -> %s" % [str(sender), ChatMsg])
+	_chat.rpc(ChatMsg)
+	pass
 
 
 func do_action(action: String) -> void:
@@ -152,6 +178,10 @@ func on_peer_del(id: int) -> void:
 		return
 
 	del_player.rpc(id)
+
+func _on_Btn_Chat_Send_Pressed() -> void : 
+	SendMsgRequest.rpc_id(1, "Hello World")
+	pass
 
 
 func _on_Action_pressed() -> void:

@@ -9,6 +9,9 @@ const PROTO_NAME = "ludus"
 @onready var _name_edit: LineEdit = $Panel/VBoxContainer/HBoxContainer/NameEdit
 @onready var _host_edit: LineEdit = $Panel/VBoxContainer/HBoxContainer2/Hostname
 @onready var _game: Control = $Panel/VBoxContainer/Game
+#@onready var _chat_history: RichTextLabel = $HBoxContainer/VBoxContainer2/RichTextLabelChat
+#@onready var _chat_text: LineEdit = $HBoxContainer/VBoxContainer2/ChatText
+@onready var _chat_btn: Button = $Panel/VBoxContainer/Game/HBoxContainer/VBoxContainer2/ButtonSendChatMessage
 
 var peer := WebSocketMultiplayerPeer.new()
 
@@ -36,6 +39,7 @@ func _ready() -> void:
 
 func start_game() -> void:
 	_host_btn.disabled = true
+	_chat_btn.disabled = false
 	_name_edit.editable = false
 	_host_edit.editable = false
 	_connect_btn.hide()
@@ -45,6 +49,7 @@ func start_game() -> void:
 
 func stop_game() -> void:
 	_host_btn.disabled = false
+	_chat_btn.disabled = true
 	_name_edit.editable = true
 	_host_edit.editable = true
 	_disconnect_btn.hide()
