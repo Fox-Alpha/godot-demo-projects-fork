@@ -61,6 +61,8 @@ func do_action(action: String) -> void:
 	var player_name := _list.get_item_text(_turn)
 	var val := randi() % 100
 	_log.rpc("%s: %ss %d" % [player_name, action, val])
+	if _rolls.size() < _turn+1:
+		_rolls.resize(_turn+1)
 	_rolls[_turn] = val
 
 
@@ -86,6 +88,7 @@ func del_player(id: int) -> void:
 	if pos == -1:
 		return
 
+	_rolls.remove_at(_players.find(id))
 	_players.remove_at(pos)
 	_list.remove_item(pos)
 
