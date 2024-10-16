@@ -26,8 +26,8 @@ func set_player_name(p_name: String) -> void:
 	var sender := multiplayer.get_remote_sender_id()
 
 	for i in _list.item_count:
-		var name = _list.get_item_text(i)
-		if name == p_name:
+		var _name := _list.get_item_text(i)
+		if _name == p_name:
 			p_name = "%s_%s" % [p_name, str(sender)]
 			break;
 
