@@ -24,6 +24,13 @@ func set_player_name(p_name: String) -> void:
 	if not is_multiplayer_authority():
 		return
 	var sender := multiplayer.get_remote_sender_id()
+
+	for i in _list.item_count:
+		var name = _list.get_item_text(i)
+		if name == p_name:
+			p_name = "%s_%s" % [p_name, str(sender)]
+			break;
+
 	update_player_name.rpc(sender, p_name)
 
 
