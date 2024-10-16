@@ -161,5 +161,11 @@ func _on_Action_pressed() -> void:
 		request_action.rpc_id(1, "roll")
 
 
-func check_win() -> int:
-	return _rolls.max()
+func check_win_return_max_val() -> int:
+	var maxroll : int = -1
+	for a in _rolls:
+		if maxroll == -1:
+			maxroll = a
+		elif a > maxroll:
+			maxroll = a
+	return maxroll
