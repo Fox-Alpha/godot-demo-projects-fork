@@ -103,7 +103,7 @@ func del_player(id: int) -> void:
 func add_player(id: int, p_name: String = "") -> void:
 	_players.append(id)
 	if p_name == "":
-		_list.add_item("... connecting ...", null, false)
+		_list.add_item("%s" % str(id), null, false)
 	else:
 		_list.add_item(p_name, null, false)
 
