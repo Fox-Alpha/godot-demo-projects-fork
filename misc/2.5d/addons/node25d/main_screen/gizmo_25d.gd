@@ -24,7 +24,7 @@ var _dominant_axis
 
 @onready var _lines = [$X, $Y, $Z]
 @onready var _viewport_overlay: SubViewport = get_parent()
-@onready var _viewport_25d_bg: ColorRect = _viewport_overlay.get_parent()
+@onready var _viewport_25d_bg: SubViewport = _viewport_overlay.get_parent()
 
 
 func _process(_delta):
