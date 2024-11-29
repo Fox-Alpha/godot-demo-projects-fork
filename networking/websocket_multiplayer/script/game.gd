@@ -26,7 +26,7 @@ func _log(message: String) -> void:
 	_game_text.scroll_to_line(line)
 
 
-@rpc("call_local")
+@rpc("authority", "call_local")
 func _chat(msg : String) -> void:
 	_chat_text_out.add_text(msg + "\n")
 	var line : int = _chat_text_out.get_line_count()
@@ -73,13 +73,13 @@ func request_action(action: String) -> void:
 func SendChatMessage() -> void: 
 	pass
 
-@rpc("any_peer")
+@rpc("any_peer", "call_local")
 func SendMsgRequest(ChatMsg : String) -> void :
 	if not is_multiplayer_authority():
 		return
 	var sender := multiplayer.get_remote_sender_id()
 	print("Chat from: %s -> %s" % [str(sender), ChatMsg])
-	_chat.rpc(ChatMsg)
+	_chat.rpc("%s: %s" % [str(sender), ChatMsg])
 	pass
 
 
@@ -180,7 +180,7 @@ func on_peer_del(id: int) -> void:
 	del_player.rpc(id)
 
 func _on_Btn_Chat_Send_Pressed() -> void : 
-	SendMsgRequest.rpc_id(1, "Hello World")
+	SendMsgRequest.rpc_id(1, _chat_text_in.text)
 	pass
 
 
